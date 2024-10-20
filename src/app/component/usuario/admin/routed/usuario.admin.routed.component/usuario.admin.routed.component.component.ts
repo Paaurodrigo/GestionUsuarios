@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { IPage } from '../../../../../model/model.interface';
 import { FormsModule } from '@angular/forms';
 import { BotoneraService } from '../../../../../service/botonera.service';
+import { debounce, debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-usuario.admin.routed',
@@ -21,6 +22,9 @@ export class UsuarioAdminRoutedComponent implements OnInit {
   arrBotonera: string[] = [];
   field: string = '';
   dir: string = 'desc';
+  filter: string = '';
+  searchInput: Subject<string> = new Subject<string>();
+ 
 
   constructor(
     private oUsuarioService: UsuarioService,
@@ -29,11 +33,30 @@ export class UsuarioAdminRoutedComponent implements OnInit {
 
   ngOnInit() {
     this.getPage();
+
+    this.searchInput.pipe(debounceTime(500)).subscribe(() => {
+      this.oUsuarioService.getPageFilter(this.filter).subscribe({
+        next: (arrUsuario: IPage<IUsuario>) => {
+          this.arrUsuarios = arrUsuario.content;
+          this.arrBotonera = this.oBotoneraService.getBotonera(
+            this.page,
+            arrUsuario.totalPages
+          );
+          this.totalPages = arrUsuario.totalPages;
+
+         
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    });
+
   }
 
   getPage() {
     this.oUsuarioService
-      .getPage(this.page, this.rpp, this.field, this.dir)
+      .getPage(this.page, this.rpp, this.field,this.dir)
       .subscribe({
         next: (arrUsuario: IPage<IUsuario>) => {
           this.arrUsuarios = arrUsuario.content;
@@ -47,6 +70,10 @@ export class UsuarioAdminRoutedComponent implements OnInit {
           console.log(err);
         },
       });
+  }
+
+  filtrar(){
+    this.searchInput.next(this.filter);
   }
 
   editar(oUsuario: IUsuario) {

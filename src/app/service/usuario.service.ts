@@ -37,4 +37,9 @@ export class UsuarioService {
     }
     return this.oHttp.get<IPage<IUsuario>>(URL);
   }
+  getPageFilter(filter: string): Observable<IPage<IUsuario>> {
+    return this.oHttp.get<IPage<IUsuario>>(
+      'http://localhost:8085/usuario?filter=' + filter
+    );
+  }
 }

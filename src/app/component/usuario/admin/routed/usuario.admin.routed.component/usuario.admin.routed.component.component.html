@@ -16,6 +16,12 @@
             <a class="page-link" (click)="goToRpp(100)" href="#">100</a>
           </li>
         </ul>
+
+        <u class="d-flex justify-content-center pagination" html>
+          <li class="page-item">
+            <input class="form-control-sm" type="text" placeholder="Filtrar..." (keyup)="filtrar()" [(ngModel)]="filter" />
+          </li>
+        </u>
       </nav>
 
       <nav class="my-4">
