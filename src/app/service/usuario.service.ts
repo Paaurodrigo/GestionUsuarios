@@ -63,7 +63,14 @@ export class UsuarioService {
     let URL: string = '';
     URL += 'http://localhost:8085';
     URL += '/usuario';
-    URL += '/' + oUsuario.id;
+    URL += '/' , oUsuario;
     return this.oHttp.put<IUsuario>(URL, oUsuario);
+  }
+
+  createOne(oUsuario: IUsuario): Observable<IUsuario> {
+    let URL: string = '';
+    URL += 'http://localhost:8085';
+    URL += '/usuario/';
+    return this.oHttp.post<IUsuario>(URL, oUsuario);
   }
 }

@@ -1,10 +1,8 @@
-<h1>Soy el componente plist</h1>
-
 <div class="container mt-5">
   <div class="row">
     <div class="col text-center">
       <!-- Botón de crear nuevo usuario -->
-      <button class="btn btn-primary my-4">Crear nuevo usuario</button>
+      <a class="btn btn-primary my-4" href="admin/usuario/create">Crear nuevo usuario</a>
 
       <!-- Filtros y paginación en la misma línea -->
       <div class="d-flex justify-content-between align-items-center mb-4">
@@ -73,9 +71,14 @@
               <a class="btn btn-primary mx-2" href="admin/usuario/edit/{{ usuario.id }}" (click)="editar(usuario)">
                 Editar
               </a>
-              <a class="btn btn-danger" href="admin/usuario/remove/{{ usuario.id }}" (click)="eliminar(usuario)">
+              <a class="btn btn-danger mx-2" href="admin/usuario/remove/{{ usuario.id }}" (click)="eliminar(usuario)">
                 Eliminar
               </a>
+
+              <a class="btn btn-info mx-2" href="admin/usuario/view/{{ usuario.id }}" (click)="ver(usuario)">
+                Ver
+              </a>
+
             </td>
           </tr>
           } @empty {
