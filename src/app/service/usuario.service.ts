@@ -8,13 +8,16 @@ import { IPage } from '../model/model.interface';
   providedIn: 'root',
 })
 export class UsuarioService {
+  
   constructor(private oHttp: HttpClient) {}
 
   getPage(
     page: number,
     size: number,
     field: string,
-    dir: string
+    dir: string,
+    filter : string
+    
   ): Observable<IPage<IUsuario>> {
     let URL: string = '';
     URL += 'http://localhost:8085';
@@ -34,12 +37,33 @@ export class UsuarioService {
       } else {
         URL += ',desc';
       }
+    }if (filter) {
+      URL += '&filter=' + filter;
     }
     return this.oHttp.get<IPage<IUsuario>>(URL);
   }
-  getPageFilter(filter: string): Observable<IPage<IUsuario>> {
-    return this.oHttp.get<IPage<IUsuario>>(
-      'http://localhost:8085/usuario?filter=' + filter
-    );
+  
+
+  getOne(id: number): Observable<IUsuario> {
+    let URL: string = '';
+    URL += 'http://localhost:8085';
+    URL += '/usuario';
+    URL += '/' + id;
+    return this.oHttp.get<IUsuario>(URL);
+  }
+  deleteOne(id: number): Observable<any> {
+    let URL: string = '';
+    URL += 'http://localhost:8085';
+    URL += '/usuario';
+    URL += '/' + id;
+    return this.oHttp.delete(URL);
+  }
+
+  updateOne(oUsuario: IUsuario): Observable<IUsuario> {
+    let URL: string = '';
+    URL += 'http://localhost:8085';
+    URL += '/usuario';
+    URL += '/' + oUsuario.id;
+    return this.oHttp.put<IUsuario>(URL, oUsuario);
   }
 }

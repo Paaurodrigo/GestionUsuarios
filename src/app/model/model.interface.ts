@@ -10,6 +10,7 @@ export interface IPage<T> {
   first: boolean;
   numberOfElements: number;
   empty: boolean;
+
 }
 
 export interface Pageable {
